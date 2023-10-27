@@ -21,7 +21,7 @@ export default {
 <style lang="scss" scoped>
 .card {
 	background: #000000;
-  background-image: url("/assets/img/b.jpg");
+  background-image: url("../../public/assets/img/b.jpg");
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

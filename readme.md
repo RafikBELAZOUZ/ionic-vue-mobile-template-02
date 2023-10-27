@@ -35,7 +35,7 @@ Using [Capacitor](https://capacitorjs.com/docs/getting-started) for native build
 
 ### Android testing and distribution
 1. Download the latest Android Studio
-2. `npm run build`
+2. `npm run build` (Generate /dist folder) `firebase deploy` (If you want to deploy to firebase)
 3. `npx cap add android`
 3. `npx cap copy`
 4. `npx cap open android` Android Studio takes a few seconds to index the files, keep an eye at the bottom of Android Studio for progress.

@@ -17,6 +17,12 @@ import { home, notifications, person, card } from "ionicons/icons";
 import Footer from "./components/Footer";
 import Footer2 from "./components/Footer2";
 
+import { collection, addDoc } from "firebase/firestore"
+// the firestore instance
+import {db, auth} from './firebase/init.ts'
+import {
+  signInWithEmailAndPassword, createUserWithEmailAndPassword, updatePassword } from 'firebase/auth';
+
 export default defineComponent({
   name: 'App',
   components: {
@@ -61,9 +67,44 @@ export default defineComponent({
       ]
     }
   },
+  created(){
+    this.createQuestion()
+  },
   methods: {
     goto(route) {
       this.$router.push(route);
+    },
+    async createQuestion(){
+        console.log('Firestore : ')
+        console.log(db)
+
+      const colRef = collection(db, 'Questions')
+      // data to send
+      const dataObj = {
+        answer: 'John' + Date.now(),
+        quesiton: 'Doe' + Date.now(),
+        tags: '1990' + Date.now()
+      }
+
+      // create document and return reference to it
+      const docRef = await addDoc(colRef, dataObj)
+
+      // access auto-generated ID with '.id'
+      console.log('Document was created with ID:', docRef.id)
+
+      const email = 'rafik.belazouz19@gmail.com';
+      const password = 'rafik2000';
+
+      await signInWithEmailAndPassword(auth, email, password)
+        .then(userCredential => {
+          // User signed in
+          const user = userCredential.user;
+          console.log("USER : ")
+          console.log(auth.currentUser)
+        })
+        .catch(error => {
+          console.log("ERROR LOGIN : " + error)
+        });
     }
   }
 });

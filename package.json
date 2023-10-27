@@ -19,6 +19,7 @@
     "@ionic/vue-router": "^5.4.0",
     "chart.js": "^2.9.3",
     "core-js": "^3.6.5",
+    "firebase": "^10.5.2",
     "ionic-vue-form": "^1.2.2",
     "node-sass": "^8.0.0",
     "sass-loader": "^10.0.2",

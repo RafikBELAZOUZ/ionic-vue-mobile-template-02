@@ -19,9 +19,7 @@ import Footer2 from "./components/Footer2";
 
 import { collection, addDoc } from "firebase/firestore"
 // the firestore instance
-import {db, auth} from './firebase/init.ts'
-import {
-  signInWithEmailAndPassword, createUserWithEmailAndPassword, updatePassword } from 'firebase/auth';
+import {db, auth, signInEmailAndPassword, createUserEmailAndPassword, logout, signInGoogle} from './firebase/init.ts'
 
 export default defineComponent({
   name: 'App',
@@ -75,10 +73,15 @@ export default defineComponent({
       this.$router.push(route);
     },
     async createQuestion(){
-        console.log('Firestore : ')
-        console.log(db)
+      const email = 'rafik.belazouz19@gmail.com';
+      const password = 'rafik2000';
 
-      const colRef = collection(db, 'Questions')
+      if(!auth.currentUser)
+        signInGoogle()
+      else 
+      console.log(auth.currentUser)
+
+      const colRef = collection(db, 'QuestionsTest')
       // data to send
       const dataObj = {
         answer: 'John' + Date.now(),
@@ -87,24 +90,11 @@ export default defineComponent({
       }
 
       // create document and return reference to it
-      const docRef = await addDoc(colRef, dataObj)
+      //const docRef = await addDoc(colRef, dataObj)
 
       // access auto-generated ID with '.id'
-      console.log('Document was created with ID:', docRef.id)
+      //console.log('Document was created with ID:', docRef.id)
 
-      const email = 'rafik.belazouz19@gmail.com';
-      const password = 'rafik2000';
-
-      await signInWithEmailAndPassword(auth, email, password)
-        .then(userCredential => {
-          // User signed in
-          const user = userCredential.user;
-          console.log("USER : ")
-          console.log(auth.currentUser)
-        })
-        .catch(error => {
-          console.log("ERROR LOGIN : " + error)
-        });
     }
   }
 });

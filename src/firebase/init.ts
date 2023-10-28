@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updatePassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signInWithRedirect  } from 'firebase/auth'
 
 const firebaseConfig = {
     apiKey: "AIzaSyAa0fbizXfucjDX2UXTk6vNQseT-MLwBMY",
@@ -15,12 +16,67 @@ const firebaseConfig = {
 
 // init firebase
 const firebaseApp = initializeApp(firebaseConfig)
+console.log(firebaseApp)
 
 // init firestore service
 export const db = getFirestore()
 export const auth = getAuth(firebaseApp)
 
-//connectFirestoreEmulator(db, '127.0.0.1', 8080);
+export const signInEmailAndPassword = async (email: string, password: string) => {
+  await signInWithEmailAndPassword(auth, email, password)
+      .then(userCredential => {
+        console.log("Current User : " )
+        console.log(auth.currentUser)
+        return userCredential.user;
+      })
+      .catch(error => {
+        console.error("Authentication Error : " + error)
+      });
+}
 
-console.log(firebaseApp)
-console.log(db)
+export const signInGoogle = async () => {
+  const provider = new GoogleAuthProvider()
+  await signInWithRedirect(auth, provider)
+      .then(userCredential => {
+        console.log("Current User : " )
+        console.log(auth.currentUser)
+        return userCredential;
+      })
+      .catch(error => {
+        console.error("Authentication Error : " + error)
+      });
+}
+
+export const createUserEmailAndPassword = async (email: string, password: string) => {
+  await createUserWithEmailAndPassword(auth, email, password)
+      .then(userCredential => {
+        console.log("User Created : " )
+        console.log(auth.currentUser)
+        return userCredential.user;
+      })
+      .catch(error => {
+        console.error("Authentication Error : " + error)
+      });
+}
+
+export const logout = async () => {
+  await signOut(auth)
+      .then(userCredential => {
+        console.log("User Signed out" )
+        return true;
+      })
+      .catch(error => {
+        console.error("Authentication Error : " + error)
+      });
+}
+
+// export const onAuthChanged = async () => {
+//   await onAuthStateChanged(auth)
+//     .then((user: any) => {
+//       if (user) {
+//         // User is signed in
+//       } else {
+//         // User is signed out
+//       }
+//   });
+// }

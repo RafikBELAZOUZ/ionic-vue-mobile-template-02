@@ -76,10 +76,7 @@ export default defineComponent({
       const email = 'rafik.belazouz19@gmail.com';
       const password = 'rafik2000';
 
-      if(!auth.currentUser)
-        signInGoogle()
-      else 
-      console.log(auth.currentUser)
+      
 
       const colRef = collection(db, 'QuestionsTest')
       // data to send
@@ -90,10 +87,12 @@ export default defineComponent({
       }
 
       // create document and return reference to it
-      //const docRef = await addDoc(colRef, dataObj)
+      const docRef = await addDoc(colRef, dataObj)
 
       // access auto-generated ID with '.id'
-      //console.log('Document was created with ID:', docRef.id)
+      console.log('Document was created with ID:', docRef.id)
+      console.log("Current User : ")
+      console.log(auth.currentUser)
 
     }
   }

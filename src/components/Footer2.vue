@@ -11,7 +11,7 @@
             <h3 class="force-down">R32</h3>
           </ion-col>
           <ion-col>
-						<div class="pay">
+						<div class="pay" @click="signInGoogleFn()">
 							<ion-icon :icon="card"></ion-icon>
 							<h3>Pay</h3>
 						</div>
@@ -24,6 +24,7 @@
 <script>
 import { IonGrid, IonRow, IonCol, IonIcon } from "@ionic/vue";
 import { beer, card } from "ionicons/icons";
+import {signInGoogle, auth} from '../firebase/init.ts'
 
 export default {
 	name: "page2",
@@ -44,7 +45,11 @@ export default {
 	methods: {
 		goto(route) {
 			this.$emit("goto", route);
-		}
+		},
+        async signInGoogleFn(){
+            await signInGoogle()
+            
+        }
 	}
 }
 </script>

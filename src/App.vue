@@ -19,7 +19,7 @@ import Footer2 from "./components/Footer2";
 
 import { collection, addDoc } from "firebase/firestore"
 // the firestore instance
-import {db, auth, signInEmailAndPassword, createUserEmailAndPassword, logout, signInGoogle} from './firebase/init.ts'
+import {db, auth, signInEmailAndPassword, createUserEmailAndPassword, logout, signInGoogle, createDocument, getDocument, questionsNumber, getRandomQuestion} from './firebase/init.ts'
 
 export default defineComponent({
   name: 'App',
@@ -73,26 +73,23 @@ export default defineComponent({
       this.$router.push(route);
     },
     async createQuestion(){
-      const email = 'rafik.belazouz19@gmail.com';
+      const email = 'rafik.belazouz191@gmail.com';
       const password = 'rafik2000';
 
-      
+      await signInEmailAndPassword(email, password)
 
-      const colRef = collection(db, 'QuestionsTest')
-      // data to send
       const dataObj = {
         answer: 'John' + Date.now(),
         quesiton: 'Doe' + Date.now(),
         tags: '1990' + Date.now()
       }
 
-      // create document and return reference to it
-      const docRef = await addDoc(colRef, dataObj)
+      await getRandomQuestion('QuestionsTest')
 
-      // access auto-generated ID with '.id'
-      console.log('Document was created with ID:', docRef.id)
       console.log("Current User : ")
       console.log(auth.currentUser)
+
+      console.log("Number of documents : " + await questionsNumber())
 
     }
   }

@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, addDoc, collection, doc, getDoc, getCountFromServer, setDoc } from "firebase/firestore";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updatePassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signInWithRedirect  } from 'firebase/auth'
 
 const firebaseConfig = {
@@ -69,6 +69,41 @@ export const logout = async () => {
         console.error("Authentication Error : " + error)
       });
 }
+
+export const createDocument = async (myCollection: any, data: any) => {
+    const number = await questionsNumber() + 1
+    const docRef = await setDoc(doc(db, myCollection, number.toString()), data)
+    console.log('Document was created with ID: ', docRef)
+  }
+
+export const getDocument = async (myCollection: any, data: any) => {
+    const docSnap = await getDoc(doc(db, myCollection, data))
+
+      if (docSnap.exists()) {
+        console.log(docSnap.data())
+      } else {
+        console.log('Document does not exist')
+      }
+}
+
+export const getRandomQuestion = async (myCollection: any) => {
+    const number = await questionsNumber()
+    const randomNumber = Math.floor(Math.random() * number)
+    console.log(randomNumber.toString())
+    const docSnap = await getDoc(doc(db, myCollection, randomNumber.toString()))
+
+      if (docSnap.exists()) {
+        console.log(docSnap.data())
+      } else {
+        console.log('Document does not exist')
+      }
+}
+
+export const questionsNumber = async () => {
+    const coll = collection(db, "QuestionsTest");
+    const snapshot = await getCountFromServer(coll);
+    return snapshot.data().count
+  }
 
 // export const onAuthChanged = async () => {
 //   await onAuthStateChanged(auth)

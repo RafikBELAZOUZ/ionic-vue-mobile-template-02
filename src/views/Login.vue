@@ -133,13 +133,14 @@ const onSignup = () => {
   password.value = "";
 };
 
-async function loginGoogle() {
-    const user = await signInGoogle()
-    console.log(user)
-    if(user){
-        toastMessage.value = "Successfully logged in!";
-        showToast.value = true;
+const loginGoogle = async () => {
+    const userLogged = await signInGoogle()
+    if(userLogged){
         router.push({name: "home"})
+    }
+    else{
+        toastMessage.value = "Please Retry";
+        showToast.value = true;
     }
         
 

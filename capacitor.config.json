@@ -9,5 +9,17 @@
       "launchShowDuration": 0
     }
   },
+  "server": {
+    "allowNavigation": [
+        "http://*",
+        "https://*"
+    ]
+  },
+  "android": {
+    "allowNavigation": [
+        "http://*",
+        "https://*"
+    ]
+  },
   "cordova": {}
 }

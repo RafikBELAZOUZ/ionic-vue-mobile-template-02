@@ -36,11 +36,11 @@ export const signInEmailAndPassword = async (email: string, password: string) =>
 
 export const signInGoogle = async () => {
   const provider = new GoogleAuthProvider()
-  await signInWithRedirect(auth, provider)
+  await signInWithPopup(auth, provider)
       .then(userCredential => {
         console.log("Current User : " )
         console.log(auth.currentUser)
-        return userCredential;
+        return userCredential.email;
       })
       .catch(error => {
         console.error("Authentication Error : " + error)

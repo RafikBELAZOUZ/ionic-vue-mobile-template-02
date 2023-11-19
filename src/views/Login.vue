@@ -43,13 +43,13 @@
 
         <ion-row responsive-sm class="ion-padding">
           <ion-col>
-            <ion-button :disabled="!canSubmit" type="submit" expand="block"
+            <ion-button :disabled="!canSubmit" type="submit" expand="block" @click="onLogin()"
               >Login</ion-button
             >
           </ion-col>
           <ion-col>
             <ion-button
-              @click="onSignup"
+              @click="onSignup()"
               color="light"
               expand="block"
               >Signup</ion-button
@@ -58,10 +58,10 @@
         </ion-row>
         <ion-row responsive-sm class="ion-padding">
           <ion-col>
-            <ion-button type="submit" expand="block">
+            <ion-button expand="block" @click="loginGoogle()">
                 <ion-icon :icon="logoGoogle"></ion-icon>
                     Login with Google!
-                </ion-button>
+            </ion-button>
           </ion-col>
         </ion-row>
       </form>
@@ -94,7 +94,10 @@ import {
   IonIcon
 } from "@ionic/vue";
 import { logoGoogle } from 'ionicons/icons';
+import {db, auth, signInEmailAndPassword, createUserEmailAndPassword, logout, signInGoogle, createDocument, getDocument, questionsNumber, getRandomQuestion} from './../firebase/init.ts'
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const username = ref("");
 const password = ref("");
 const submitted = ref(false);
@@ -109,11 +112,10 @@ const canSubmit = computed(
   () => username.value.trim() !== "" && password.value.trim() !== ""
 );
 
-const onLogin = () => {
+const onLogin = async () => {
   submitted.value = true;
   if (usernameValid && passwordValid) {
     console.log("Logged IN!!!!!!");
-    this.$router.push("home")
   }
   else {
     toastMessage.value = "Username or Password is Incorrect";
@@ -130,6 +132,41 @@ const onSignup = () => {
   username.value = "";
   password.value = "";
 };
+
+async function loginGoogle() {
+    const user = await signInGoogle()
+    console.log(user)
+    if(user){
+        toastMessage.value = "Successfully logged in!";
+        showToast.value = true;
+        router.push({name: "home"})
+    }
+        
+
+}
+/*export default {
+  name: "login",
+  title: "Login",
+  requiresAuth: false,
+  components: {
+    
+  },
+  data() {
+    return {
+      
+    };
+  },
+  methods: {
+    async loginGoogle() {
+        const user = await signInGoogle()
+    
+        this.$router.push({name: 'home'})
+
+        await console.log(this.$router)
+        await console.log(this.$route)
+    }
+  }
+}*/
 </script>
 
 <style scoped>

@@ -1,6 +1,7 @@
 <template>
 	<div class="footer">
 		<ion-tabs>
+            <ion-router-outlet />
 			<ion-tab-bar>
 				<ion-tab-button :tab="item.label" v-for="(item, index) in data" :key="index" @click="goto(item.route)">
 					<ion-icon :icon="item.icon"></ion-icon>
@@ -11,11 +12,11 @@
 </template>
 
 <script>
-import { IonTabs, IonTabBar, IonTabButton, IonIcon } from "@ionic/vue";
+import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonRouterOutlet } from "@ionic/vue";
 
 export default {
 	name: "page-footer",
-	components: { IonTabs, IonTabBar, IonTabButton, IonIcon },
+	components: { IonTabs, IonTabBar, IonTabButton, IonIcon, IonRouterOutlet },
   props: {
 		data: {
 			type: Array,

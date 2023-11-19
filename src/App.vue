@@ -66,7 +66,7 @@ export default defineComponent({
     }
   },
   created(){
-    this.$router.push("login");
+    this.$router.push({name: 'login'});
     console.log(this.$route.name)
     //this.createQuestion()
   },

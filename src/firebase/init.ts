@@ -40,7 +40,7 @@ export const signInGoogle = async () => {
       .then(userCredential => {
         console.log("Current User : " )
         console.log(auth.currentUser)
-        return userCredential.email;
+        return userCredential;
       })
       .catch(error => {
         console.error("Authentication Error : " + error)

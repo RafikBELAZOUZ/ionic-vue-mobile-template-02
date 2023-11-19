@@ -4,8 +4,8 @@
       Template is built for mobile, for best experience please use a mobile device or use the browser in mobile mode.
     </h4>
     <ion-router-outlet />
-    <Footer :data="footer" v-if="!homePage" @goto="goto" />
-    <Footer2 :data="footer" v-if="homePage" @goto="goto" />
+    <Footer :data="footer" v-if="!loginPage" @goto="goto" />
+    <Footer2 :data="footer" v-if="!loginPage" @goto="goto" />
   </ion-app>
 </template>
 
@@ -30,8 +30,8 @@ export default defineComponent({
     Footer2
   },
   computed: {
-    homePage() {
-      return true;
+    loginPage() {
+      return (this.$route.name == "login");
       // return this.store.getters.toggleFooter;
     }
   },
@@ -66,7 +66,9 @@ export default defineComponent({
     }
   },
   created(){
-    this.createQuestion()
+    this.$router.push("login");
+    console.log(this.$route.name)
+    //this.createQuestion()
   },
   methods: {
     goto(route) {

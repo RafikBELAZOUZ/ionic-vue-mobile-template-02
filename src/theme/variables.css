@@ -4,8 +4,8 @@ http://ionicframework.com/docs/theming/ */
 @import "./media-queries.scss";
 
 :root {
-  --ion-background-color: #0f0f17 !important;
-  --background: #0f0f17 !important;
+  --ion-background-color: #ffffff !important; /*#0f0f17*/
+  --background: #ffffff !important; /*#0f0f17*/
   --padding-bottom: 130px !important;
 
 }

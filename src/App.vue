@@ -4,8 +4,8 @@
       Template is built for mobile, for best experience please use a mobile device or use the browser in mobile mode.
     </h4>
     <ion-router-outlet />
-    <Footer :data="footer" v-if="!loginPage" @goto="goto" />
-    <Footer2 :data="footer" v-if="!loginPage" @goto="goto" />
+    <Footer :data="footer" v-if="$route.name != 'login' && $route.name !='signUp'" @goto="goto" />
+    <Footer2 :data="footer" v-if="$route.name == 'test'" @goto="goto" />
   </ion-app>
 </template>
 
@@ -65,7 +65,7 @@ export default defineComponent({
       ]
     }
   },
-  created(){
+  beforeCreate(){
     this.$router.push({name: 'login'});
     console.log(this.$route.name)
     //this.createQuestion()
@@ -92,7 +92,7 @@ export default defineComponent({
       console.log(auth.currentUser)
 
       console.log("Number of documents : " + await questionsNumber())
-
+      
     }
   }
 });

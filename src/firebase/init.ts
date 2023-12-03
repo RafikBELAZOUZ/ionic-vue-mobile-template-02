@@ -23,7 +23,7 @@ export const db = getFirestore()
 export const auth = getAuth(firebaseApp)
 
 export const signInEmailAndPassword = async (email: string, password: string) => {
-  await signInWithEmailAndPassword(auth, email, password)
+  return await signInWithEmailAndPassword(auth, email, password)
       .then(userCredential => {
         console.log("Current User : " )
         console.log(auth.currentUser)

@@ -5,7 +5,7 @@
         <ion-buttons slot="start">
           <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <ion-title>Login</ion-title>
+        <ion-title>Sign Up</ion-title>
       </ion-toolbar>
     </ion-header>
 
@@ -14,14 +14,27 @@
         <img src="./../../public/assets/img/b.jpg" alt="Ionic logo" />
       </div>
 
-      <form novalidate @submit.prevent="onLogin()">
+      <form novalidate @submit.prevent="signUp()">
         <ion-list>
           <ion-item>
             <ion-input
-              label="Username"
+              label="First Name"
               labelPlacement="stacked"
-              v-model="username"
-              name="username"
+              v-model="firstName"
+              name="firstName"
+              type="text"
+              spellcheck="false"
+              autocapitalize="off"
+              required
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-input
+              label="Last Name"
+              labelPlacement="stacked"
+              v-model="lastName"
+              name="lastName"
               type="text"
               spellcheck="false"
               autocapitalize="off"
@@ -39,31 +52,42 @@
               required
             ></ion-input>
           </ion-item>
+
+          <ion-item>
+            <ion-input
+              labelPlacement="stacked"
+              label="Confirm Password"
+              v-model="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              required
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-input
+              labelPlacement="stacked"
+              label="Email"
+              v-model="email"
+              name="email"
+              type="email"
+              required
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-datetime-button datetime="datetime"></ion-datetime-button>
+            <ion-modal :keep-contents-mounted="true">
+                <ion-datetime id="datetime" presentation="date" :show-default-buttons="true" v-model="birthDate"></ion-datetime>
+            </ion-modal>
+          </ion-item>
         </ion-list>
 
         <ion-row responsive-sm class="ion-padding">
           <ion-col>
-            <ion-button :disabled="!canSubmit" type="submit" expand="block"
-              >Login</ion-button
-            >
-          </ion-col>
-          <ion-col>
-            <ion-button
-              @click="onSignup()"
-              color="light"
-              expand="block"
-              >Signup</ion-button
-            >
+            <ion-button :disabled="!canSubmit" type="submit" expand="block">Sign Up!</ion-button>
           </ion-col>
         </ion-row>
-        <!--<ion-row responsive-sm class="ion-padding">
-          <ion-col>
-            <ion-button expand="block" @click="loginGoogle()">
-                <ion-icon :icon="logoGoogle"></ion-icon>
-                    Login with Google!
-            </ion-button>
-          </ion-col>
-        </ion-row>-->
       </form>
       <ion-toast
         :is-open="showToast"
@@ -91,15 +115,23 @@ import {
   IonCol,
   IonInput,
   IonToast,
-  IonIcon
+  IonIcon,
+  IonDatetime,
+  IonModal,
+  IonDatetimeButton
 } from "@ionic/vue";
 import { logoGoogle } from 'ionicons/icons';
 import {db, auth, signInEmailAndPassword, createUserEmailAndPassword, logout, signInGoogle, createDocument, getDocument, questionsNumber, getRandomQuestion} from './../firebase/init.ts'
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-const username = ref("");
+const firstName = ref("");
+const lastName = ref("");
+const confirmPassword = ref("");
 const password = ref("");
+const email = ref("");
+const birthDate = ref(new Date().toISOString().slice(0, 10));
+
 const submitted = ref(false);
 
 const usernameValid = true;
@@ -109,63 +141,13 @@ const showToast = ref(false);
 const toastMessage = ref("");
 
 const canSubmit = computed(
-  () => username.value.trim() !== "" && password.value.trim() !== ""
+  () => firstName.value.trim() !== "" && lastName.value.trim() !== "" && password.value.trim() !== "" && confirmPassword.value.trim() !== "" && email.value.trim() !== "" && birthDate.value !== new Date().toISOString().slice(0, 10)
 );
 
-const onLogin = async () => {
-  submitted.value = true;
-  if (await signInEmailAndPassword(username.value, password.value)) {
-    toastMessage.value = "Successfully logged in!";
-    console.log("Logged IN!!!!!!");
-    router.push({name: "home"})
-  }
-  else {
-    console.log("NOT LOGGED IN :(");
-    toastMessage.value = "Username or Password is Incorrect";
-    showToast.value = true;
-    password.value = "";
-  }
+const signUp = () => {
+    console.log(birthDate.value)
 };
 
-const onSignup = () => {
-    router.push({name: "signUp"})
-};
-
-const loginGoogle = async () => {
-    /*const userLogged = await signInEmailAndPassword(username.value, password.value)
-    if(userLogged){
-        router.push({name: "home"})
-    }
-    else{
-        toastMessage.value = "Please Retry";
-        showToast.value = true;
-    }*/
-        
-
-}
-/*export default {
-  name: "login",
-  title: "Login",
-  requiresAuth: false,
-  components: {
-    
-  },
-  data() {
-    return {
-      
-    };
-  },
-  methods: {
-    async loginGoogle() {
-        const user = await signInGoogle()
-    
-        this.$router.push({name: 'home'})
-
-        await console.log(this.$router)
-        await console.log(this.$route)
-    }
-  }
-}*/
 </script>
 
 <style scoped>

@@ -3,7 +3,7 @@
 		<ion-tabs>
             <ion-router-outlet />
 			<ion-tab-bar>
-				<ion-tab-button :tab="item.label" v-for="(item, index) in data" :key="index" @click="goto(item.route)" v-bind:class="{'white': !clicked, 'blue': clicked}" v-on:click ="clicked = !clicked">
+				<ion-tab-button :tab="item.label" v-for="(item, index) in data" :key="index" @click="goto(item, index)" v-bind:class="{'selectedItem': selected[index]}">
 					<ion-icon :icon="item.icon"></ion-icon>
 				</ion-tab-button>
 			</ion-tab-bar>
@@ -19,7 +19,7 @@ export default {
 	components: { IonTabs, IonTabBar, IonTabButton, IonIcon, IonRouterOutlet },
     data() {
         return {
-            clicked: false
+            selected: [false, false, false]
         }
     },
     props: {
@@ -30,8 +30,10 @@ export default {
 		}
 	},
 	methods: {
-		goto(route) {
-			this.$emit("goto", route);
+		goto(item, index) {
+            this.selected = [false, false, false]
+            this.selected[index] = true
+			this.$emit("goto", item.route)
 		}
 	}
 }
@@ -51,7 +53,7 @@ ion-tab-bar {
 	--background: #000000;
 }
 
-ion-tab-button:active {
+.selectedItem {
 	background: #262626;
     border: 1px #2f2f2f solid;
     color: #717070;

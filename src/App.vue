@@ -12,7 +12,7 @@
 <script>
 import { IonApp, IonRouterOutlet } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import { home, notifications, person, card } from "ionicons/icons";
+import { home, notifications, person, card, bookmark } from "ionicons/icons";
 
 import Footer from "./components/Footer";
 import Footer2 from "./components/Footer2";
@@ -55,7 +55,7 @@ export default defineComponent({
         {
           label: "Notifications",
           route: "/product-view",
-          icon: notifications
+          icon: bookmark
         },
         {
           label: "Profile",

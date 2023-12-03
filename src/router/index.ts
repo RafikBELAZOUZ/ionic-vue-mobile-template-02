@@ -28,4 +28,10 @@ const router = createRouter({
   routes
 })
 
+router.beforeEach(async (to, from) => {
+    if (localStorage.getItem("currentUser") && (to.name == 'login' || to.name == 'signUp')) {
+      return { name: 'home' }
+    }
+  })
+
 export default router

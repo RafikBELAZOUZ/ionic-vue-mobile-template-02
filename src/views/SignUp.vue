@@ -141,11 +141,19 @@ const showToast = ref(false);
 const toastMessage = ref("");
 
 const canSubmit = computed(
-  () => firstName.value.trim() !== "" && lastName.value.trim() !== "" && password.value.trim() !== "" && confirmPassword.value.trim() !== "" && email.value.trim() !== "" && birthDate.value !== new Date().toISOString().slice(0, 10)
+  () => firstName.value.trim() !== "" && lastName.value.trim() !== "" && password.value.trim() !== "" && confirmPassword.value.trim() !== "" && email.value.trim() !== "" && birthDate.value !== new Date().toISOString().slice(0, 10) && password.value === confirmPassword.value
 );
 
-const signUp = () => {
-    console.log(birthDate.value)
+const signUp = async () => {  
+    const user = await createUserEmailAndPassword(email.value, password.value)
+    if(user){
+        toastMessage.value = "You just created an account!";
+        showToast.value = true;
+        router.push({name: "login"})
+    }
+    else {
+        console.log("Error in Sign Up")
+    }
 };
 
 </script>

@@ -16,7 +16,7 @@ const firebaseConfig = {
 
 // init firebase
 const firebaseApp = initializeApp(firebaseConfig)
-console.log(firebaseApp)
+//console.log(firebaseApp)
 
 // init firestore service
 export const db = getFirestore()
@@ -48,7 +48,7 @@ export const signInGoogle = async () => {
 }
 
 export const createUserEmailAndPassword = async (email: string, password: string) => {
-  await createUserWithEmailAndPassword(auth, email, password)
+  return await createUserWithEmailAndPassword(auth, email, password)
       .then(userCredential => {
         console.log("User Created : " )
         console.log(auth.currentUser)
@@ -105,13 +105,23 @@ export const questionsNumber = async () => {
     return snapshot.data().count
   }
 
-// export const onAuthChanged = async () => {
-//   await onAuthStateChanged(auth)
-//     .then((user: any) => {
-//       if (user) {
-//         // User is signed in
-//       } else {
-//         // User is signed out
-//       }
-//   });
-// }
+export const onAuthChanged = () => {
+  return onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/auth.user
+      console.log("AUTH CHANGED POSITIF")
+      console.log(user)
+      localStorage.setItem("currentUser", JSON.stringify(user))
+      return user
+      // ...
+    } else {
+        console.log("AUTH CHANGED NEGATIF")
+        localStorage.setItem("currentUser", "")
+        return null
+      // User is signed out
+    }
+  })
+}
+
+export const currentUser = "frf"

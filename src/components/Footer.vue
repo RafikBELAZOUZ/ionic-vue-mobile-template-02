@@ -3,7 +3,7 @@
 		<ion-tabs>
             <ion-router-outlet />
 			<ion-tab-bar>
-				<ion-tab-button :tab="item.label" v-for="(item, index) in data" :key="index" @click="goto(item.route)">
+				<ion-tab-button :tab="item.label" v-for="(item, index) in data" :key="index" @click="goto(item.route)" v-bind:class="{'white': !clicked, 'blue': clicked}" v-on:click ="clicked = !clicked">
 					<ion-icon :icon="item.icon"></ion-icon>
 				</ion-tab-button>
 			</ion-tab-bar>
@@ -17,7 +17,12 @@ import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonRouterOutlet } from "@ion
 export default {
 	name: "page-footer",
 	components: { IonTabs, IonTabBar, IonTabButton, IonIcon, IonRouterOutlet },
-  props: {
+    data() {
+        return {
+            clicked: false
+        }
+    },
+    props: {
 		data: {
 			type: Array,
 			required: true,
@@ -41,20 +46,14 @@ export default {
 // }
 
 ion-tab-bar {
-	padding: 0 10px;
-	height: 100px;
+	padding: 0;
+	height: 60px;
 	--background: #000000;
 }
 
-ion-tab-button {
-	height: 40px;
-	margin: 15px;
-
-	&:first-child {
-		border-radius: 40px;
-		background: #262626;
+ion-tab-button:active {
+	background: #262626;
     border: 1px #2f2f2f solid;
     color: #717070;
-  }
 }
 </style>

@@ -19,7 +19,7 @@ import Footer2 from "./components/Footer2";
 
 import { collection, addDoc } from "firebase/firestore"
 // the firestore instance
-import {db, auth, signInEmailAndPassword, createUserEmailAndPassword, logout, signInGoogle, createDocument, getDocument, questionsNumber, getRandomQuestion} from './firebase/init.ts'
+import {db, auth, signInEmailAndPassword, createUserEmailAndPassword, logout, signInGoogle, createDocument, getDocument, questionsNumber, getRandomQuestion, onAuthChanged} from './firebase/init.ts'
 
 export default defineComponent({
   name: 'App',
@@ -49,12 +49,12 @@ export default defineComponent({
       footer: [
         {
           label: "Home",
-          route: "home",
+          route: "/",
           icon: home
         },
         {
           label: "Notifications",
-          route: "notifications",
+          route: "/product-view",
           icon: notifications
         },
         {
@@ -65,9 +65,29 @@ export default defineComponent({
       ]
     }
   },
-  beforeCreate(){
-    this.$router.push({name: 'login'});
-    console.log(this.$route.name)
+  async beforeCreate(){
+    onAuthChanged()
+    if(!localStorage.getItem("currentUser")){
+        console.log("Current User : ")
+        console.log(localStorage.getItem("currentUser"))
+        this.$router.push({name: 'login'});
+    }
+    else{
+        console.log("Current User : ")
+        console.log(JSON.parse(localStorage.getItem("currentUser")))
+        this.$router.push({name: 'home'});
+    }
+    /*await setTimeout(() =>{
+            console.log("Current User in before: ")
+            console.log(auth.currentUser)
+            if(!auth.currentUser)
+                this.$router.push({name: 'login'});
+            else{
+                this.$router.push({name: 'home'});
+                }
+        }, 1000);*/
+  },
+  created(){
     //this.createQuestion()
   },
   methods: {
@@ -78,7 +98,7 @@ export default defineComponent({
       const email = 'rafik.belazouz191@gmail.com';
       const password = 'rafik2000';
 
-      await signInEmailAndPassword(email, password)
+      //await signInEmailAndPassword(email, password)
 
       const dataObj = {
         answer: 'John' + Date.now(),
@@ -86,12 +106,12 @@ export default defineComponent({
         tags: '1990' + Date.now()
       }
 
-      await getRandomQuestion('QuestionsTest')
+      //await getRandomQuestion('QuestionsTest')
 
       console.log("Current User : ")
       console.log(auth.currentUser)
 
-      console.log("Number of documents : " + await questionsNumber())
+      //console.log("Number of documents : " + await questionsNumber())
       
     }
   }

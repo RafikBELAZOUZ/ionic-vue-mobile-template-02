@@ -1,5 +1,4 @@
-<template>
-	<div class="footer">
+<template>	
 		<ion-tabs>
             <ion-router-outlet />
 			<ion-tab-bar>
@@ -8,7 +7,7 @@
 				</ion-tab-button>
 			</ion-tab-bar>
 		</ion-tabs>
-	</div>
+
 </template>
 
 <script>
@@ -19,7 +18,7 @@ export default {
 	components: { IonTabs, IonTabBar, IonTabButton, IonIcon, IonRouterOutlet },
     data() {
         return {
-            selected: [false, false, false]
+            selected: [true, false, false]
         }
     },
     props: {

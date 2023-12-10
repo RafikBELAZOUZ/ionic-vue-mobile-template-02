@@ -5,7 +5,6 @@
     </h4>
     <ion-router-outlet />
     <Footer :data="footer" v-if="$route.name != 'login' && $route.name !='signUp'" @goto="goto" />
-    <Footer2 :data="footer" v-if="$route.name == 'test'" @goto="goto" />
   </ion-app>
 </template>
 
@@ -27,7 +26,6 @@ export default defineComponent({
     IonApp,
     IonRouterOutlet,
     Footer,
-    Footer2
   },
   computed: {
     loginPage() {

@@ -1,23 +1,16 @@
 <template>
-  <ion-page class="ion-padding">
-    <ion-grid class="overview-wrapper">
-      <ion-row>
-        <ion-col>
-          <h2 class="overview">Tonight</h2>
-          <div class="date">Monday, November 25</div>
+  <ion-page class="ion-justify-content-between">
+    
+    <ion-row>
+        <ion-col class="ion-align-self-stretch">
+            <Card/>
         </ion-col>
-        <ion-col>
-          <div class="price">
-            R32 
-            <p class="total-price">Total Price</p>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-
-    <QuickActions />
-
-    <Card @productview="productview" />
+        
+    </ion-row>
+    
+    <ion-row>
+        <QuickActions />
+    </ion-row>  
 
   </ion-page>
 </template>
@@ -35,7 +28,6 @@ export default {
   requiresAuth: false,
   components: {
     IonPage,
-    IonGrid,
     IonRow,
     IonCol,
     QuickActions,

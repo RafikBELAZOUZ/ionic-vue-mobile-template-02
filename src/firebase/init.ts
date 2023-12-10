@@ -94,8 +94,10 @@ export const getRandomQuestion = async (myCollection: any) => {
 
       if (docSnap.exists()) {
         console.log(docSnap.data())
+        return docSnap.data()
       } else {
         console.log('Document does not exist')
+        return ""
       }
 }
 
